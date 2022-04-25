@@ -1,3 +1,10 @@
+/**
+ * @file Matrix.hpp
+ * @author Tom Koltunov
+ * @brief Headers file for 3rd assignment in Software_Systems_B course
+ * @date 2022-04
+ */
+
 #include <iostream>
 #include <vector>
 
@@ -15,8 +22,8 @@ namespace zich
         public:
             Matrix(const vector<double>& mat, int length, int width); 
 
-            Matrix operator+(const Matrix& other) const;
-            Matrix& operator+=(const Matrix& other);
+            Matrix operator+(const Matrix& other) const; //כשאני רוצה שזה יפעל על אובייקטים קבועים
+            Matrix& operator+=(const Matrix& other);// & כי אני לא מעתיק את כל האובייקר וקונסט כי אני לא רוצה לשנות את האובייקט
             Matrix operator+() const;
 
             Matrix operator-(const Matrix& other) const;

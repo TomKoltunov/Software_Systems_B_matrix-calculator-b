@@ -1,34 +1,49 @@
 #include "Matrix.hpp"
 using namespace std;
 
+/*
+The sub - function named "fromMatrixToVector" receives vector in which each spot consists of vector in which each spot is a double
+called 'matrix', an integer called 'length' which represents 'matrix's length and an integer called 'width' which represents 'matrix's 
+width.
+The function returns vector in which each spot is a double - this vector is 'matrix' after the convertion.
+*/
 vector<double> fromMatrixToVector(vector<vector<double>> matrix, int length, int width)
 {
-    vector<double> vec((size_t)(length * width));
+    vector<double> vec((size_t)(length * width)); // Creating the vector which will represent the vector form of 'matrix' and giving 
+                                                  // its size
     int index = 0;
     for (int i = 0; i < length; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            vec[(size_t)index++] = matrix[(size_t)i][(size_t)j];
+            vec[(size_t)index++] = matrix[(size_t)i][(size_t)j]; // Copying each 'matrix's spot to 'vec'
         }
     }
     return vec;
 }
 
+/*
+The sub - function named "fromVectorToMatrix" receives vector in which each spot is a double called 'vec', an integer called 'length' 
+which represents the final matrix's length and an integer called 'width' which represents the final matrix's width.
+The function returns vector in which each spot consists of a vector in which each spot is a double - this matirx is 'vec' after the 
+convertion.
+*/
 vector<vector<double>> fromVectorToMatrix(vector<double> vec, int length, int width)
 {
-    vector<vector<double>> matrix;
-    matrix.resize((size_t)length);
-    for (int i = 0; i < matrix.size(); i++)
+    vector<vector<double>> matrix; // Creating the vector in which each spot consists of a vector in which each spot is a double that
+                                   // will represent the matrix form of 'vec'
+    matrix.resize((size_t)length); // Setting the number of rows of 'matrix' ('matrix's length)
+    for (int i = 0; i < matrix.size(); i++) // The target of this loop is to set the number of columns of 'matrix' ('matrix's width)
+                                            // 0 <= i <= 'length'
     {
-        matrix[(size_t)i].resize((size_t)width);
+        matrix[(size_t)i].resize((size_t)width); // Setting the number of columns of 'matrix's i"th row to be equal to 'matrix's width.
     }
     int index = 0;
-    for (int i = 0; i < matrix.size(); i++)
+    for (int i = 0; i < matrix.size(); i++) // 0 <= i <= 'length'
     {
-        for (int j = 0; j < matrix[0].size(); j++)
+        for (int j = 0; j < matrix[0].size(); j++) // 0 <= j <= 'width'
         {
-            matrix[(size_t)i][(size_t)j] = vec[(size_t)index++];
+            matrix[(size_t)i][(size_t)j] = vec[(size_t)index++]; // Copying each 'vec's spot to 'matrix'
         }
     }
     return matrix;
@@ -36,6 +51,11 @@ vector<vector<double>> fromVectorToMatrix(vector<double> vec, int length, int wi
 
 namespace zich
 {   
+    /*
+    The constructor named "Matrix" recieves vector in which each spot is a double called 'mat', an integer called 'length' 
+    which represents the final matrix's length and an integer called 'width' which represents the final matrix's width.
+    The constructor creates new Matrix object which consists of the given parameters.
+    */
     Matrix::Matrix(const vector<double>& mat, int length, int width)
     {
         if (length <= 0)
@@ -55,6 +75,10 @@ namespace zich
         this -> _width = width;
     } 
 
+    /*
+    The operator which signature is "operator+(const Matrix& other)" recieves a Matrix object called 'other'.
+    The operator returns the sum of the Matrix objects 'this' sum 'other'.
+    */
     Matrix Matrix::operator+(const Matrix& other) const
     {
         vector<double> mat = this ->_mat;
@@ -73,6 +97,10 @@ namespace zich
         return matrix;
     }
 
+    /*
+    The operator which signature is "operator+=(const Matrix& other)" recieves a Matrix object called 'other'.
+    The operator calculates the sum of the Matrix objects 'this' sum 'other', puts the result into 'this' Matrix object and returns it.
+    */
     Matrix& Matrix::operator+=(const Matrix& other)
     {
         vector<double> mat = this ->_mat;
@@ -89,12 +117,19 @@ namespace zich
         return *this;
     }
 
+    /*
+    The operator which signature is "operator+()" returns the sum of the Matrix objects 'this' sum 'this'.
+    */
     Matrix Matrix::operator+() const
     {
         Matrix matrix{this -> _mat, this -> _length, this -> _width};
         return matrix;
     }
 
+    /*
+    The operator which signature is "operator-(const Matrix& other)" recieves a Matrix object called 'other'.
+    The operator returns the difference of the Matrix objects 'this' diff 'other'.
+    */
     Matrix Matrix::operator-(const Matrix& other) const
     {
         vector<double> mat = this ->_mat;
@@ -113,6 +148,11 @@ namespace zich
         return matrix;
     }
 
+    /*
+    The operator which signature is "operator-=(const Matrix& other)" recieves a Matrix object called 'other'.
+    The operator calculates the diffenece of the Matrix objects 'this' diff 'other', puts the result into 'this' Matrix object and 
+    returns it.
+    */
     Matrix& Matrix::operator-=(const Matrix& other)
     {
         vector<double> mat = this ->_mat;
@@ -129,6 +169,9 @@ namespace zich
         return *this;
     }
 
+    /*
+    The operator which signature is "operator-()" returns the result of the calculation 'this' * (-1).
+    */
     Matrix Matrix::operator-() const
     {
         vector<double> mat = this ->_mat;
@@ -143,6 +186,12 @@ namespace zich
         return matrix;
     }
 
+    /*
+    The operator which signature is "operator*(const Matrix& other)" recieves a Matrix object called 'other'.
+    The operator returns the multiplication of the Matrix objects 'this' mult 'other'.
+    The operator uses the sub - functions named "fromVectorToMatrix" and "fromMatrixToVector" which appear above it outside the 
+    namespace.
+    */
     Matrix Matrix::operator*(const Matrix& other) const
     {
         vector<double> mat = this ->_mat;
@@ -175,12 +224,22 @@ namespace zich
         return finalMatrix;
     }
 
+    /*
+    The operator which signature is "operator*(Matrix& matrix, double number)" recieves a Matrix object called 'matrix' and a double
+    called 'numebr'.
+    The operator returns the multiplication of the Matrix object 'matrix' mult number.
+    */
     Matrix operator*(Matrix& matrix, double number)
     {
         Matrix answer = number * matrix;
         return answer;
     }
 
+    /*
+    The operator which signature is "operator*(Matrix& matrix, double number)" recieves a Matrix object called 'matrix' and a double
+    called 'numebr'.
+    The operator returns the multiplication of number mult the Matrix object 'matrix'.
+    */
     Matrix operator*(double number, Matrix& matrix)
     {
         Matrix mat{matrix._mat, matrix._length, matrix._width};
@@ -191,6 +250,11 @@ namespace zich
         return mat;
     }
 
+    /*
+    The operator which signature is "operator*=(const Matrix& other)" recieves a Matrix object called 'other'.
+    The operator calculates the multiplication of the Matrix objects 'this' mult 'other', puts the result into 'this' Matrix object and 
+    returns it.
+    */
     Matrix& Matrix::operator*=(const Matrix& other)
     {
         if (this -> _width != other._length)
@@ -204,6 +268,11 @@ namespace zich
         return *this;
     }
 
+    /*
+    The operator which signature is "operator*=(double number)" recieves a double called 'number'.
+    The operator calculates the multiplication of the Matrix object 'this' mult 'number', puts the result into 'this' Matrix object and 
+    returns it.
+    */
     Matrix& Matrix::operator*=(double number)
     {
         for (int i = 0; i < this ->_mat.size(); i++)
@@ -213,6 +282,10 @@ namespace zich
         return *this;
     }
 
+    /*
+    The operator which signature is "operator>(const Matrix& matrix)" recieves a Matrix object called 'other'.
+    The operator returns "true" if the Matrix object 'this' is bigger than the Matrix object 'other', else it returns "false".
+    */
     bool Matrix::operator>(const Matrix& matrix) const
     {
         vector<double> mat = this ->_mat;
@@ -232,6 +305,11 @@ namespace zich
         return (sum1 > sum2);
     }
 
+    /*
+    The operator which signature is "operator>=(const Matrix& matrix)" recieves a Matrix object called 'other'.
+    The operator returns "true" if the Matrix object 'this' is bigger than or equals to the Matrix object 'other', else it returns 
+    "false".
+    */
     bool Matrix::operator>=(const Matrix& matrix) const
     {
         int length = this -> _length;
@@ -243,6 +321,10 @@ namespace zich
         return (*this > matrix || *this == matrix);
     }
 
+    /*
+    The operator which signature is "operator<(const Matrix& matrix)" recieves a Matrix object called 'other'.
+    The operator returns "true" if the Matrix object 'this' is smaller than the Matrix object 'other', else it returns "false".
+    */
     bool Matrix::operator<(const Matrix& matrix) const
     {
         vector<double> mat = this ->_mat;
@@ -262,6 +344,11 @@ namespace zich
         return (sum1 < sum2);
     }
 
+    /*
+    The operator which signature is "operator<=(const Matrix& matrix)" recieves a Matrix object called 'other'.
+    The operator returns "true" if the Matrix object 'this' is smaller than or equals to the Matrix object 'other', else it returns 
+    "false".
+    */
     bool Matrix::operator<=(const Matrix& matrix) const
     {
         int length = this -> _length;
@@ -273,6 +360,10 @@ namespace zich
         return (*this < matrix || *this == matrix);
     }
 
+    /*
+    The operator which signature is "operator==(const Matrix& matrix)" recieves a Matrix object called 'other'.
+    The operator returns "true" if the Matrix object 'this' is equals to the Matrix object 'other', else it returns "false".
+    */
     bool Matrix::operator==(const Matrix& matrix) const
     {
         vector<double> mat = this ->_mat;
@@ -294,6 +385,10 @@ namespace zich
         return answer;
     }
 
+    /*
+    The operator which signature is "operator==(const Matrix& matrix)" recieves a Matrix object called 'other'.
+    The operator returns "true" if the Matrix object 'this' isn't equals to the Matrix object 'other', else it returns "false".
+    */
     bool Matrix::operator!=(const Matrix& matrix) const
     {
         int length = this -> _length;
@@ -305,6 +400,10 @@ namespace zich
         return (!(*this == matrix));
     }
 
+    /*
+    The operator which signature is "operator++()" first adds 1 to the Matrix object 'this' and then returns 'this'.
+    returns it.
+    */
     Matrix& Matrix::operator++()
     {
         for (int i = 0; i < this -> _mat.size(); i++)
@@ -314,6 +413,10 @@ namespace zich
         return *this;
     }
 
+    /*
+    The operator which signature is "operator--()" first takes 1 from the Matrix object 'this' and then returns 'this'.
+    returns it.
+    */
     Matrix& Matrix::operator--()
     {
         for (int i = 0; i < this -> _mat.size(); i++)
@@ -323,6 +426,10 @@ namespace zich
         return *this;
     }
 
+    /*
+    The operator which signature is "operator++(int number)" first returns the Matrix object 'this' and then adds 1 to it.
+    returns it.
+    */
     Matrix Matrix::operator++(int number)
     {
         Matrix matrix{this -> _mat, this -> _length, this -> _width};
@@ -333,6 +440,10 @@ namespace zich
         return matrix;
     }
 
+    /*
+    The operator which signature is "operator--(int number)" first returns the Matrix object 'this' and then takes 1 from it.
+    returns it.
+    */
     Matrix Matrix::operator--(int number)
     {
         Matrix matrix{this -> _mat, this -> _length, this -> _width};
