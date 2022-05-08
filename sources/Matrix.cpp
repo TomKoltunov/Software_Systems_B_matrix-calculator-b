@@ -386,7 +386,7 @@ namespace zich
     }
 
     /*
-    The operator which signature is "operator==(const Matrix& matrix)" recieves a Matrix object called 'other'.
+    The operator which signature is "operator!=(const Matrix& matrix)" recieves a Matrix object called 'other'.
     The operator returns "true" if the Matrix object 'this' isn't equals to the Matrix object 'other', else it returns "false".
     */
     bool Matrix::operator!=(const Matrix& matrix) const
@@ -402,7 +402,6 @@ namespace zich
 
     /*
     The operator which signature is "operator++()" first adds 1 to the Matrix object 'this' and then returns 'this'.
-    returns it.
     */
     Matrix& Matrix::operator++()
     {
@@ -415,7 +414,6 @@ namespace zich
 
     /*
     The operator which signature is "operator--()" first takes 1 from the Matrix object 'this' and then returns 'this'.
-    returns it.
     */
     Matrix& Matrix::operator--()
     {
@@ -428,7 +426,6 @@ namespace zich
 
     /*
     The operator which signature is "operator++(int number)" first returns the Matrix object 'this' and then adds 1 to it.
-    returns it.
     */
     Matrix Matrix::operator++(int number)
     {
@@ -442,7 +439,6 @@ namespace zich
 
     /*
     The operator which signature is "operator--(int number)" first returns the Matrix object 'this' and then takes 1 from it.
-    returns it.
     */
     Matrix Matrix::operator--(int number)
     {
@@ -454,6 +450,10 @@ namespace zich
         return matrix;
     }
 
+    /*
+    The operator which signature is "operator<<(ostream& output, const Matrix& mat)" receives the output device and a Matrix 
+    object and it outputs the Matrix object to the given output device.
+    */
     ostream& operator<<(ostream& output, const Matrix& mat)
     {
         vector<double> vec = mat._mat;
@@ -487,6 +487,10 @@ namespace zich
         return output;
     }
 
+    /*
+    The operator which signature is "operator>>(istream& input , Matrix& mat)" receives the input device and a Matrix 
+    object and it inputs the Matrix object from the given output device.
+    */
     istream& operator>>(istream& input , Matrix& matrix)
     {
         string inserted(istreambuf_iterator<char>(input), {});
